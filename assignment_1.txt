@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>multiselect</title>
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            z-index: 1;
+            background-color:white;
+            min-width: 160px;
+            border: 2px solid blue;
+            overflow: auto;
+            max-height: 200px;
+        }
+        .dropdown-content label {
+            display: block;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .dropdown-content label:hover {
+            background-color: pink;
+        }
+        .dropdown-content input[type="checkbox"] {
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .dropdown.active .dropdown-content {
+            display: block;
+        }
+        .dropdown.active button {
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dropdown" id="multiselect">
+        <button onclick="toggleDropdown()">Select options</button>
+        <div class="dropdown-content">
+            <label><input type="checkbox" value="Value1" onchange="updateSelections()">Value 1</label>
+            <label><input type="checkbox" value="Value2" onchange="updateSelections()">Value 2</label>
+            <label><input type="checkbox" value="Value3" onchange="updateSelections()">Value 3</label>
+            <label><input type="checkbox" value="Value4" onchange="updateSelections()">Value 4</label>
+        </div>
+    </div>
+
+    <script>
+        var dropdown = document.getElementById("multiselect");
+        var selectedValues = ["Value1", "Value3"];
+        var readonly = false;
+        function updateSelections() {
+            var checkboxes = dropdown.querySelectorAll("input[type='checkbox']");
+            selectedValues = [];
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    selectedValues.push(checkboxes[i].value);
+                }
+            }
+        }
+        function toggleDropdown() {
+            if (!readonly) {
+                dropdown.classList.toggle("active");
+            }
+        }
+        var checkboxes = dropdown.querySelectorAll("input[type='checkbox']");
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (selectedValues.includes(checkboxes[i].value)) {
+                checkboxes[i].checked = true;
+            }
+            if (readonly) {
+                checkboxes[i].disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>
+
